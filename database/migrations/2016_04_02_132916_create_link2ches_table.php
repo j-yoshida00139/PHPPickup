@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLink2chTable extends Migration
+class CreateLink2chesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,13 @@ class CreateLink2chTable extends Migration
      */
     public function up()
     {
-        Schema::create('link2ch', function (Blueprint $table) {
+        Schema::create('link2ches', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('url');
-            $table->string('threadNo');
+            $table->string('url')->unique();
             $table->string('text');
-            $table->dateTime('postedDate');
+            $table->date('postedDate')->default('1000-01-01');
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateLink2chTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('link2ches');
     }
 }

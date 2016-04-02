@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\Crawl2chPHP::class,
         // Commands\Inspire::class,
     ];
 
@@ -26,5 +27,6 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('crawl2chPHP')->hourly();
     }
 }

@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('php2ch');
+Route::get('/', 'LinkListController@index');
+//    return view('php2ch');
 //    return view('welcome');
-});
+//});
