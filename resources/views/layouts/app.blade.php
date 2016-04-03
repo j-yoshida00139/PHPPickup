@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="description" itemprop="description" content="2ちゃんねるのPHP関連最新情報のまとめ。プログラミング言語・開発環境・フレームワーク等の議論が中心。" />
+    <meta name="keywords" content="PHP,2ちゃんねる,最新情報,プログラミング,開発環境,フレームワーク">
     <title>PHP速報</title>
 
     <!-- Fonts -->
