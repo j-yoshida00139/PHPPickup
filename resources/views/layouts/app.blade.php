@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" itemprop="description" content="2ちゃんねるのPHP関連最新情報のまとめ。プログラミング言語・開発環境・フレームワーク等の議論が中心。" />
     <meta name="keywords" content="PHP,2ちゃんねる,最新情報,プログラミング,開発環境,フレームワーク" >
+    <meta name="google-site-verification" content="no67d79mjCUWPI7ScAOsemKEETssJRUDvoAtDOWlIJ4" />
     <title>PHP速報</title>
 
     <!-- Fonts -->
