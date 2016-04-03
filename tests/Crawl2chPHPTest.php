@@ -27,6 +27,15 @@ class Crawl2chPHPTest extends TestCase
         }
     }
     
+    public function testCheckDateString()
+    {
+        $dateStr = array("2015/03/01.", "2015/3/1.", "201/03/01.", "201a/03/01.", "2015/03/a1.");
+        $results = array(true, false, false, false, false);
+        for($i=0; $i<count($dateStr); $i++){
+            $this->assertEquals($this->crawler->checkDateString($dateStr[i]), $results[i]);
+        }
+    }
+    
     public function testCalcDayOfWeek()
     {
         $dateStrArray      = array("2016/4/1", "2016/04/02");
