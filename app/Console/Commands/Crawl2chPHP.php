@@ -38,31 +38,64 @@ class Crawl2chPHP extends Command
      */
     public function handle()
     {
-        $url = 'http://find.2ch.sc/?STR=php&TYPE=TITLE&x=29&y=9&BBS=ALL&ENCODING=SJIS&COUNT=50';
-        $str = $this->getContentsCurl($url); 
+        $mainUrl = 'http://find.2ch.sc/?STR=php&TYPE=TITLE&x=29&y=9&BBS=ALL&ENCODING=SJIS&COUNT=50';
+        $str = $this->getContentsCurl($mainUrl); 
         $html= str_get_html($str);
+        echo 'a'.PHP_EOL;
         foreach($html -> find('dl dt a') as $list){
-            $link = new Link2ch();
-            $link->url = $list->href;
-            if(Link2ch::where('url','=',$link->url)->count()>0){
-                echo 'Duplicated data. Not saved.'.PHP_EOL;
+            $url = $list->href;
+            if ($this->shouldBeRegisteredUrl($url)===false){
                 continue;
             }
-            $str_child = $this->getContentsCurl($link->url);
+            $str_child = $this->getContentsCurl($url);
             $html_child= str_get_html($str_child);
-            if(empty($html_child)){
-                continue;
-            }
+            echo 'aaa'.PHP_EOL;
             $dateStrWithExtra = current($html_child -> find('dl dt'))->outertext;
+            $link = new Link2ch();
+            $link->url = $url;
             $link->postedDate = $this->extractDate($dateStrWithExtra);
             $link->text = $this->getInnerText($list->outertext);
-//            echo 'Posted date is : '.$link->postedDate.PHP_EOL;
-            echo 'Saved.'.PHP_EOL;
-            $link->save();
-
+            if ($this->shouldBeRegisteredText($link->text)){
+                $link->save();
+            }
         }
         $html -> clear();
         unset($html);
+    }
+    
+    /**
+     * Check the link should be registered
+     */
+    public function shouldBeRegisteredUrl($url)
+    {
+        if(Link2ch::where('url','=',$url)->count()>0){
+            /* Duplicated data. Not saved. */
+            return false;
+        }
+        $str = $this->getContentsCurl($url);
+        $html= str_get_html($str);
+        if(empty($html)){
+            /* Cannot get the posted date. */
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Check the link text is suit to register
+     */
+    public function shouldBeRegisteredText($str)
+    {
+        if (mb_substr($str, mb_strlen($str)-1, 1)==="板"){
+            return false;
+        }
+        $blackList = ["PHP文庫","PHP新書","PHP研究所"];
+        foreach($blackList as $blackWord){
+            if (mb_strpos($str, $blackWord)!==false){
+                return false;
+            }
+        }
+        return true;
     }
     
     /**
