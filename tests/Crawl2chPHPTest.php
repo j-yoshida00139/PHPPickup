@@ -23,7 +23,7 @@ class Crawl2chPHPTest extends TestCase
         $dateStr    = array("2015/3/1",           "2015/03/02");
         for($i=0; $i<count($dateStrOrg); $i++){
             $date = $this->crawler->extractDate($dateStrOrg[$i]);
-            $this->assertEquals($date, new \DateTime($dateStr[$i]));
+            $this->assertEquals(new \DateTime($dateStr[$i]), $date);
         }
     }
     
@@ -46,10 +46,5 @@ class Crawl2chPHPTest extends TestCase
         }
     }
     
-    public function testGetInnerText(){
-        $innerText = "Example.com";
-        $aStr = "<a href=\"http://www.example.com\" name=\"aTag\">".$innerText."</a>";
-        $this->assertEquals($this->crawler->getInnerText($aStr), $innerText);
-    }
     
 }

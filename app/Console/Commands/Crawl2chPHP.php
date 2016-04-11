@@ -19,8 +19,9 @@ class Crawl2chPHP extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Get the link to 2ch pages';
 
+    private $curlUtil;
     /**
      * Create a new command instance.
      *
@@ -29,6 +30,7 @@ class Crawl2chPHP extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->curlUtil = new curlUtility();
     }
 
     /**
@@ -39,22 +41,18 @@ class Crawl2chPHP extends Command
     public function handle()
     {
         $mainUrl = 'http://find.2ch.sc/?STR=php&TYPE=TITLE&x=29&y=9&BBS=ALL&ENCODING=SJIS&COUNT=50';
-        $str = $this->getContentsCurl($mainUrl); 
-        $html= str_get_html($str);
-        echo 'a'.PHP_EOL;
+        $html = $this->curlUtil->getContentsCurl($mainUrl); 
         foreach($html -> find('dl dt a') as $list){
             $url = $list->href;
             if ($this->shouldBeRegisteredUrl($url)===false){
                 continue;
             }
-            $str_child = $this->getContentsCurl($url);
-            $html_child= str_get_html($str_child);
-            echo 'aaa'.PHP_EOL;
+            $html_child = $this->curlUtil->getContentsCurl($url);
             $dateStrWithExtra = current($html_child -> find('dl dt'))->outertext;
             $link = new Link2ch();
             $link->url = $url;
-            $link->postedDate = $this->extractDate($dateStrWithExtra);
-            $link->text = $this->getInnerText($list->outertext);
+            $link->postedDate = $this->curlUtil->extractDate($dateStrWithExtra);
+            $link->text = $this->curlUtil->getInnerText($list->outertext);
             if ($this->shouldBeRegisteredText($link->text)){
                 $link->save();
             }
@@ -72,8 +70,7 @@ class Crawl2chPHP extends Command
             /* Duplicated data. Not saved. */
             return false;
         }
-        $str = $this->getContentsCurl($url);
-        $html= str_get_html($str);
+        $html= $this->curlUtil->getContentsCurl($url);
         if(empty($html)){
             /* Cannot get the posted date. */
             return false;
@@ -98,32 +95,9 @@ class Crawl2chPHP extends Command
         return true;
     }
     
-    /**
-     * Extract the Date from String
-     * 
-     * e.g. 
-     * extractDate("Today is 2016/4/2 !!") === "2016/4/2"
-     */
-    public function extractDate($dateStrOrg){
-        $dateStrArray = array();
-        preg_match('/[0-9]{4}\/[0-9]{1,2}\/[0-9]{1,2}/', $dateStrOrg, $dateStrArray);
-        $dateStr = empty($dateStrArray) ? "":$dateStrArray[0];
-        if(! $this->checkDateString($dateStr)){
-            echo 'Illegal date format.'.PHP_EOL;
-            $date = new \DateTime("1000-01-01");
-        }else{
-            try{
-                $date = new \DateTime($dateStr);
-            } catch (Exception $e) {
-                echo $e->getMessage();
-                $date = new \DateTime("1000-01-01");
-            }
-        }
-        return $date;
-    }
     
     /**
-     * Check the dateString suit yyyy/mm/dd or not
+     * Check the dateString suit y/m/d or not
      */
     public function checkDateString($dateStr){
         if(empty($dateStr)) {return false; }
@@ -150,30 +124,6 @@ class Crawl2chPHP extends Command
         return $weekjp[$weekno];
     }
     
-    /**
-     * Return inner text of an html tag
-     */
-    public function getInnerText($aStr){
-        $aStrArray = array();
-        preg_match('/>.*</',$aStr, $aStrArray);
-        if(empty($aStrArray)){
-            return "";
-        }
-        $innerText = mb_substr($aStrArray[0], 1, mb_strlen($aStrArray[0])-2);
-        return $innerText;
-    }
+
     
-    /**
-     * Get contents by curl
-     */
-    public function getContentsCurl($url){
-        include_once(getcwd().'/resources/views/simple_html_dom.php');
-        $curl = curl_init(); 
-        curl_setopt($curl, CURLOPT_URL, $url);  
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);  
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);  
-        $str = curl_exec($curl); 
-        curl_close($curl); 
-        return $str;
-    }
 }

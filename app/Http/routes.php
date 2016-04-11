@@ -12,6 +12,4 @@
 */
 
 Route::get('/', 'LinkListController@index');
-//    return view('php2ch');
-//    return view('welcome');
-//});
+Route::get('/{linkId}', 'PostController@index');

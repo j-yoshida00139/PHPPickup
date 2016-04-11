@@ -10,7 +10,8 @@
                         <ul class='news'>
                             <li class='news'>
                                 <span>【{{$link->postedDate}}】</span>
-                                <a href="{{$link->url}}" >{{$link->text}}</a>
+                                <a href="/{{$link->id}}" >{{$link->text}}</a>
+<!--                                <a href="{{$link->url}}" >{{$link->text}}</a>-->
                             </li>
                         </ul>
                     @endforeach

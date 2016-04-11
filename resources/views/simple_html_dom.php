@@ -138,7 +138,11 @@ class simple_html_dom_node
 
 	function __toString()
 	{
+            try{
 		return $this->outertext();
+            } catch (Exception $exception) {
+                return '';
+            }
 	}
 
 	// clean up memory due to php5 circular references memory leak...

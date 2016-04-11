@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CreateLink2chesTable' => $baseDir . '/database/migrations/2016_04_02_132916_create_link2ches_table.php',
+    'CreatePage2chesTable' => $baseDir . '/database/migrations/2016_04_07_192438_create_page2ches_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
