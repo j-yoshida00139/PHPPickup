@@ -32,7 +32,7 @@ class crawl2chPage extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->curlUtil = new curlUtility();
+        $this->curlUtil = new CurlUtility();
     }
 
     /**
