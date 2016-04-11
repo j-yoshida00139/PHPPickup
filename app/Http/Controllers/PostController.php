@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\page2ch;
+use App\Page2ch;
 
 class PostController extends Controller
 {
