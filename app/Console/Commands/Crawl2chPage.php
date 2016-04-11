@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Link2ch;
-use App\page2ch;
+use App\Page2ch;
 
 
 class crawl2chPage extends Command
