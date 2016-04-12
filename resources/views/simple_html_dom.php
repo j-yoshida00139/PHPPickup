@@ -807,7 +807,11 @@ class simple_html_dom_node
 			}
 			else
 			{
+                            try{
 				$converted_text = iconv($sourceCharset, $targetCharset, $text);
+                            } catch (Exception $e) {
+                                echo 'Exception: ',  $e->getMessage(), "\n";
+                            }
 			}
 		}
 
