@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <h1>PHP速報</h1>
+                <h1><a class="title" href="/">PHP速報</a></h1>
             </div>
         </div>
     </div>
