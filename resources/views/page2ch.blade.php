@@ -14,7 +14,7 @@
                                 <span>{{$post->postedTime}}</span>
                                 <span>{{$post->posterId}}</span>
                                 <br>
-                                {{$post->text}}
+                                {!! $post->text !!}
                             </li>
                         </ul>
                     @endforeach
